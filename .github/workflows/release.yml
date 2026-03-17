@@ -27,7 +27,7 @@ jobs:
       - name: Build zip
         run: npm run build:zip
 
-      - name: Upload dist.zip to Release
+      - name: Upload build zip to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/dist.zip
+          files: dist/sk5-proxy-manager-${{ github.ref_name }}.zip

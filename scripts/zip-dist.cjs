@@ -10,7 +10,9 @@ async function main (){
     const _root = path.resolve(__dirname, '..')
     const _dist = path.join(_root, 'dist')
     const _unpack = path.join(_dist, 'unpack')
-    const _zipPath = path.join(_dist, 'dist.zip')
+    const _tag = process.env.GITHUB_REF_NAME || process.env.npm_package_version || 'dist'
+    const _zipName = `sk5-proxy-manager-${_tag}.zip`
+    const _zipPath = path.join(_dist, _zipName)
 
     try{
         await fs.access(_unpack)
@@ -19,7 +21,7 @@ async function main (){
     }
 
     await fs.rm(_zipPath, { force: true })
-    // 在 dist/unpack 内打包，zip 文件输出到 dist/dist.zip
+    // 在 dist/unpack 内打包，zip 文件输出到 dist/
     run(`zip -r "${_zipPath}" .`, _unpack)
 }
 
