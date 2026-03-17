@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节点管理</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzczNzUzMTY5Mjc4IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjEzNjc2IiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBkPSJNMCAwbTE5MiAwbDY0MCAwcTE5MiAwIDE5MiAxOTJsMCA2NDBxMCAxOTItMTkyIDE5MmwtNjQwIDBxLTE5MiAwLTE5Mi0xOTJsMC02NDBxMC0xOTIgMTkyLTE5MloiIGZpbGw9IiM2MTk0RkYiIHAtaWQ9IjEzNjc3Ij48L3BhdGg+PHBhdGggZD0iTTM1OS4yIDYwOGMtMTMuMTIgMC0yNi4yMDgtMy4yLTM2LjAzMi0xMi44bC01Mi40MTYtNTQuNGMtMTkuNjgtMTkuMi0xOS42OC00OCAwLTY3LjJsNTIuNDE2LTUxLjJhNDguMzIgNDguMzIgMCAwIDEgNjguOCAwbDUyLjQxNiA1MS4yYzE5LjY4IDE5LjIgMTkuNjggNDggMCA2Ny4ybC01Mi40MTYgNTEuMmMtNi41NiAxMi44LTE5LjY0OCAxNi0zMi43NjggMTZ6IG0tOS44MjQtMzUuMmM2LjU2IDYuNCAxNi4zODQgNi40IDIyLjk0NCAwbDUyLjQxNi01MS4yYzYuNTYtOS42IDYuNTYtMTkuMiAwLTI1LjZsLTUyLjQxNi01MS4yYTE2LjA5NiAxNi4wOTYgMCAwIDAtMjIuOTQ0IDBsLTU1LjY4IDUxLjJjLTYuNTYgNi40LTYuNTYgMTYgMCAyMi40bDU1LjY4IDU0LjR6TTY4Ni44NDggNDE2aC02NS41MzZjLTI2LjIwOCAwLTQ5LjEyLTIyLjQtNDkuMTItNDh2LTY0YzAtMjUuNiAyMi45MTItNDggNDkuMTItNDhoNjUuNTM2QzcxMy4wODggMjU2IDczNiAyNzguNCA3MzYgMzA0djY0YzAgMjUuNi0xOS42NDggNDgtNDkuMTUyIDQ4eiBtLTY1LjUzNi0xMjhjLTkuODI0IDAtMTYuMzg0IDYuNC0xNi4zODQgMTZ2NjRjMCA5LjYgNi41NiAxNiAxNi4zODQgMTZoNjUuNTM2YzkuODI0IDAgMTYuMzg0LTYuNCAxNi4zODQtMTZ2LTY0YzAtOS42LTYuNTYtMTYtMTYuMzg0LTE2aC02NS41MzZ6IG02NS41MzYgNDgwaC02NS41MzZjLTI2LjIwOCAwLTQ5LjEyLTIyLjQtNDkuMTItNDh2LTY0YzAtMjUuNiAyMi45MTItNDggNDkuMTItNDhoNjUuNTM2YzI2LjI0IDAgNDkuMTUyIDIyLjQgNDkuMTUyIDQ4djY0YzAgMjUuNi0xOS42NDggNDgtNDkuMTUyIDQ4eiBtLTY1LjUzNi0xMjhjLTkuODI0IDAtMTYuMzg0IDYuNC0xNi4zODQgMTZ2NjRjMCA5LjYgNi41NiAxNiAxNi4zODQgMTZoNjUuNTM2YzkuODI0IDAgMTYuMzg0LTYuNCAxNi4zODQtMTZ2LTY0YzAtOS42LTYuNTYtMTYtMTYuMzg0LTE2aC02NS41MzZ6IG0tMzIuNzY4IDY0aC05OC4yNzJjLTI2LjI0IDAtNDkuMTUyLTIyLjQtNDkuMTUyLTQ4di0yODhjMC0yNS42IDIyLjk0NC00OCA0OS4xNTItNDhoOTguMjcyYzkuODU2IDAgMTYuMzg0IDYuNCAxNi4zODQgMTZzLTYuNTI4IDE2LTE2LjM4NCAxNmgtOTguMjcyYy02LjU2IDAtMTYuMzg0IDYuNC0xNi4zODQgMTZ2Mjg4YzAgOS42IDYuNTYgMTYgMTYuMzg0IDE2aDk4LjI3MmM5Ljg1NiAwIDE2LjM4NCA2LjQgMTYuMzg0IDE2cy02LjUyOCAxNi0xNi4zODQgMTZ6IiBmaWxsPSIjRkZGRkZGIiBwLWlkPSIxMzY3OCI+PC9wYXRoPjwvc3ZnPg==">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.9/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.7.2/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            font-family: "Consolas", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #0f172a, #020617);
+            color: #e5e7eb;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 24px 12px;
+        }
+        button{
+            background: #0f172a;
+            border: 1px solid #3b82f6;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #e5e7eb;
+            font-size: 13px;
+            transition: all .15s ease-out;
+        }
+        button:hover{
+            background: #1d4ed8;
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.45);
+            transform: translateY(-1px);
+        }
+        input{
+            border: 1px solid #4b5563;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background-color: #020617;
+            color: #e5e7eb;
+            font-size: 13px;
+        }
+        #app{
+            width: 100%;
+            max-width: 1040px;
+            background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 55%),
+                        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.16), transparent 50%),
+                        rgba(15, 23, 42, 0.88);
+            border-radius: 16px;
+            padding: 20px 22px 22px;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            box-shadow:
+                0 18px 35px rgba(15, 23, 42, 0.9),
+                0 0 0 1px rgba(30, 64, 175, 0.3);
+            backdrop-filter: blur(14px);
+        }
+        .statis{
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .statis-title{
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: #e5e7eb;
+        }
+        .statis-sub{
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 3px;
+        }
+        .statis-count{
+            font-size: 13px;
+            color: #9ca3af;
+        }
+        .statis-count strong{
+            font-size: 18px;
+            color: #38bdf8;
+        }
+        #actions{
+            margin-top: 14px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        #actions button{
+            font-weight: 500;
+        }
+        .actions-col{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        .actions-col.right{
+            justify-content: flex-end;
+        }
+        .datalist{
+            border: 1px solid rgba(55, 65, 81, 0.9);
+            border-radius: 10px;
+            margin-top: 18px;
+            font-size: 13px;
+            width: 100%;
+            border-collapse: collapse;
+            background: radial-gradient(circle at top, rgba(31, 41, 55, 0.9), rgba(15, 23, 42, 0.96));
+            overflow: hidden;
+        }
+        .datalist thead{
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.9), rgba(30, 64, 175, 0.9));
+            color: #e5e7eb;
+        }
+        .datalist thead th{
+            padding: 11px 12px;
+            text-align: left;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(55, 65, 81, 0.8);
+            white-space: nowrap;
+        }
+        .datalist tbody tr td{
+            border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+            padding: 10px 12px;
+            border-right: 1px solid rgba(31, 41, 55, 0.9);
+            color: #e5e7eb;
+            vertical-align: middle;
+        }
+        .datalist tbody tr td:last-child{
+            border-right: none;
+            white-space: nowrap;
+        }
+        .datalist tbody tr:last-child td{
+            border-bottom: 0;
+        }
+        .datalist tbody tr:nth-child(odd){
+            background: rgba(15, 23, 42, 0.9);
+        }
+        .datalist tbody tr:nth-child(even){
+            background: rgba(17, 24, 39, 0.95);
+        }
+        .datalist tbody tr:hover{
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), rgba(15, 23, 42, 0.96));
+            box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.35);
+        }
+        .modal-form{
+            width: 580px;
+            position: fixed;
+            z-index: 88;
+            left: 50%;
+            top: 18%;
+            transform: translate(-50%, 0);
+            border: 1px solid rgba(55, 65, 81, 0.95);
+            background: #020617;
+            box-shadow: 0 22px 45px rgba(0, 0, 0, .85);
+            padding: 18px 18px 16px;
+            border-radius: 10px;
+        }
+        .provider-modal{
+            width: 480px;
+            top: 24%;
+            z-index: 99;
+        }
+        .modal-form .head{
+            font-weight: bold;
+            color: #e5e7eb;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(75, 85, 99, 0.8);
+            padding-bottom: 10px;
+            letter-spacing: 0.02em;
+        }
+        .modal-form .body{
+            margin: 12px 0 8px;
+        }
+        .modal-form .field{
+            padding-bottom: 12px;
+        }
+        .modal-form .field .label{
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        .modal-form .field input{
+            margin-top: 8px;
+            padding: 4px 12px;
+            width: 100%;
+        }
+        .modal-form .field select{
+            margin-top: 8px;
+            padding: 3px 13px;
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #4b5563;
+            background-color: #020617;
+            color: #e5e7eb;
+            font-size: 13px;
+        }
+        .modal-form .foot{
+            border-top: 1px solid rgba(55, 65, 81, 0.8);
+            padding-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .modal-form .foot .submit{
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #022c22;
+        }
+
+        .qrcode-modal{
+            position: fixed;
+            z-index: 88;
+            left: 50%;
+            top: 18%;
+            transform: translate(-50%, 0);
+            border: 1px solid rgba(55, 65, 81, 0.95);
+            background: #020617;
+            box-shadow: 0 22px 45px rgba(0, 0, 0, .85);
+            padding: 18px 18px 14px;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .qrcode-modal .close{
+            margin-top: 12px;
+            text-decoration: underline;
+            font-size: 13px;
+            cursor: pointer;
+            color: #9ca3af;
+        }
+        .qrcode-modal .close:hover{
+            color: #e5e7eb;
+        }
+
+        @media (max-width: 720px){
+            #app{
+                padding: 16px;
+            }
+            .statis{
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            #actions{
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .actions-col{
+                width: 100%;
+            }
+            .actions-col.left,
+            .actions-col.right{
+                justify-content: flex-start;
+            }
+            .actions-col.left input{
+                width: 100%;
+                min-width: 0;
+            }
+            .actions-col.left button,
+            .actions-col.right button{
+                flex: 1 1 auto;
+            }
+            .datalist-wrap{
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                border-radius: 10px;
+                border: 1px solid rgba(55, 65, 81, 0.9);
+                margin-top: 18px;
+            }
+            .datalist{
+                margin-top: 0;
+                border: none;
+                min-width: 740px;
+            }
+            .modal-form,
+            .qrcode-modal{
+                width: calc(100% - 36px);
+                left: 50%;
+                transform: translate(-50%, 0);
+            }
+            .modal-form{
+                top: 10%;
+                max-height: 80vh;
+                overflow: auto;
+            }
+            .provider-modal{
+                top: 10%;
+            }
+            .datalist thead{
+                font-size: 12px;
+            }
+            .datalist tbody tr td{
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            .datalist tbody tr td:last-child{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+                white-space: normal;
+            }
+            .datalist tbody tr td:last-child button{
+                flex: 1 1 30%;
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+<div id="app">
+    <div class="statis">
+        <div>
+            <div class="statis-title">Trojan 实例管理面板</div>
+            <div class="statis-sub">
+                批量创建 / 删除端口，快速更换上游代理 IP
+                <span style="display:block; margin-top:4px; font-size:11px; color:#94a3b8;">
+                    changeip 示例：<span style="color:#e5e7eb;">GET /api/changeip?platform=okeyproxy&amp;localport=56666&amp;country=JP</span>
+                </span>
+            </div>
+        </div>
+        <div class="statis-count">当前实例：<strong>{{instances.length}}</strong> 个</div>
+    </div>
+    <div id="actions">
+        <div class="actions-col left">
+            <button @click="addinst">+ 新建端口</button>
+            <button @click="delinsts">- 批量删除</button>
+            <button @click="openProxyManager">SK5 提供商</button>
+            <button @click="openSniModal">SNI 配置</button>
+            <input type="number" placeholder="端口起始" v-model="portStarts">
+        </div>
+        <div class="actions-col right">
+            <button @click="copy">复制端口信息</button>
+            <button @click="openLogsModal">日志面板</button>
+        </div>
+        <!-- <button class="export">一键导出TXT{{chooseds.length ? ` / 已选 ${chooseds.length}` : ''}}</button> -->
+    </div>
+    <div class="datalist-wrap">
+    <table class="datalist">
+        <thead>
+            <th>
+                <input type="checkbox"
+                       :checked="instances.length > 0 && selectedPorts.length === instances.length"
+                       @change="toggleSelectAll($event)">
+            </th>
+            <th>#</th>
+            <th>端口</th>
+            <th>密码</th>
+            <th>SNI</th>
+            <th>代理</th>
+            <th>Actions</th>
+        </thead>
+        <tbody>
+            <tr v-for="(_inst, _index) in instances">
+                <td>
+                    <input type="checkbox"
+                           :value="_inst.local_port"
+                           v-model="selectedPorts">
+                </td>
+                <td>{{_index + 1}}</td>
+                <td>{{_inst.local_port}}</td>
+                <td>{{_inst.password[0]}}</td>
+                <td>{{_inst.ssl.sni}}</td>
+                <td>{{_inst.forward_proxy.username}}@{{_inst.forward_proxy.proxy_addr}}</td>
+                <td>
+                    <button @click="delinst(_inst)">删除</button>
+                    <button @click="changeip(_inst)">换IP</button>
+                    <button @click="qrcode(_inst)">二维码</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <div class="qrcode-modal" v-if="qrcodeShow">
+        <div ref="qrcode-modal"></div>
+        <div class="close" @click="qrcodeShow = false">关闭</div>
+    </div>
+
+    <div class="modal-form" v-if="createInstForm">
+        <div class="head">新建端口</div>
+        <div class="body">
+            <div class="field">
+                <div class="label">端口:</div>
+                <input type="text" v-model="createInstForm.port">
+            </div>
+            <div class="field">
+                <div class="label">密码:</div>
+                <input v-model="createInstForm.passwd">
+            </div>
+            <div class="field">
+                <div class="label">SNI:</div>
+                <input type="text" v-model.trim="createInstForm.sni" readonly>
+            </div>
+            <div class="field">
+                <div class="label">SK代理:</div>
+                <select v-model.trim="createInstForm.proxy_name">
+                    <option :value="_name" :key="_name" v-for="_name in sk5proxys">{{_name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="foot">
+            <button class="submit" @click="createInst">{{createInstFormSubmiting ? '生效中...' : '保存并生效'}}</button>
+            <button @click="createInstForm = null">取消</button>
+        </div>
+    </div>
+
+    <div class="modal-form" v-if="proxyManagerVisible">
+        <div class="head">代理管理</div>
+        <div class="body">
+            <div class="field">
+                <div class="label" style="display:flex; align-items:center; justify-content:space-between;">
+                    <span>代理提供商（providers）</span>
+                    <button @click="addProvider">新增</button>
+                </div>
+                <div v-if="!providersLoaded" style="margin-top:8px; font-size:12px; color:#9ca3af;">正在加载 providers...</div>
+                <div v-else style="margin-top:8px; max-height:180px; overflow:auto; border:1px solid rgba(55,65,81,0.6); border-radius:6px;">
+                    <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                        <thead>
+                            <tr style="background:rgba(15,23,42,0.9);">
+                                <th style="text-align:left; padding:8px 10px; border-bottom:1px solid rgba(55,65,81,0.6);">名称</th>
+                                <th style="text-align:left; padding:8px 10px; border-bottom:1px solid rgba(55,65,81,0.6);">地址</th>
+                                <th style="text-align:left; padding:8px 10px; border-bottom:1px solid rgba(55,65,81,0.6);">端口</th>
+                                <th style="text-align:left; padding:8px 10px; border-bottom:1px solid rgba(55,65,81,0.6);">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="proxyProviders.length === 0">
+                                <td colspan="4" style="padding:10px; color:#9ca3af;">暂无 provider。点击“新增”添加。</td>
+                            </tr>
+                            <tr v-for="_p in proxyProviders" :key="_p.name">
+                                <td style="padding:8px 10px; border-bottom:1px solid rgba(55,65,81,0.35);">{{_p.name}}</td>
+                                <td style="padding:8px 10px; border-bottom:1px solid rgba(55,65,81,0.35);">{{_p.proxy_addr}}</td>
+                                <td style="padding:8px 10px; border-bottom:1px solid rgba(55,65,81,0.35);">{{_p.proxy_port}}</td>
+                                <td style="padding:8px 10px; border-bottom:1px solid rgba(55,65,81,0.35); white-space:nowrap;">
+                                    <button @click="editProvider(_p)">编辑</button>
+                                    <button @click="deleteProvider(_p)">删除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <button @click="proxyManagerVisible = false">关闭</button>
+        </div>
+    </div>
+
+    <div class="modal-form provider-modal" v-if="sniModalVisible">
+        <div class="head">SNI 配置（sslconf.json）</div>
+        <div class="body">
+            <div class="field">
+                <div class="label" style="margin-bottom:4px;">主域名（仅一个，新建端口时 SNI 将使用此域名）</div>
+                <div style="font-size:11px; color:#9ca3af; margin-bottom:6px;">不能含子域名（如 www），不要带协议（如 https://）</div>
+                <input placeholder="例如: example.com" v-model.trim="sniForm.domain" style="margin-top:4px; width:100%;">
+            </div>
+            <div class="field" style="margin-top:12px;">
+                <div class="label" style="margin-bottom:4px;">Cloudflare Key（可选）</div>
+                <div style="font-size:11px; color:#9ca3af; margin-bottom:6px;">用于后续自动更新 DNS 等场景，留空则不保存</div>
+                <input placeholder="例如: 全局 API Key 或 Token" v-model.trim="sniForm.cloudflare_key" style="margin-top:4px; width:100%;">
+            </div>
+        </div>
+        <div class="foot">
+            <button class="submit" @click="saveSni">{{sniFormSaving ? '保存中...' : '保存'}}</button>
+            <button class="submit" @click="applyCert" :disabled="applyCertLoading" style="margin-left:8px;">
+                {{applyCertLoading ? '申请中...' : '申请证书'}}
+            </button>
+            <button @click="sniModalVisible = false">关闭</button>
+        </div>
+    </div>
+
+    <div class="modal-form" v-if="logsModalVisible">
+        <div class="head">后端日志（内存，最多 10000 条）</div>
+        <div class="body">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;">
+                <div style="font-size:12px; color:#9ca3af;">
+                    latest_id: {{logsLatestId}}，已加载 {{logs.length}} 条
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button @click="fetchLogs(true)" :disabled="logsLoading">{{logsLoading ? '加载中...' : '刷新'}}</button>
+                    <button @click="toggleLogsAuto">{{logsAuto ? '停止自动刷新' : '自动刷新'}}</button>
+                </div>
+            </div>
+            <div style="max-height:55vh; overflow:auto; border:1px solid rgba(55,65,81,0.6); border-radius:8px; background:rgba(2,6,23,0.6); padding:10px;">
+                <pre style="white-space:pre-wrap; word-break:break-word; font-size:12px; line-height:1.45; margin:0;">{{logsText}}</pre>
+            </div>
+        </div>
+        <div class="foot">
+            <button @click="closeLogsModal">关闭</button>
+        </div>
+    </div>
+
+    <div class="modal-form provider-modal" v-if="providerForm">
+        <div class="head">{{providerForm.mode === 'add' ? '新增代理提供商' : '编辑代理提供商'}}</div>
+        <div class="body">
+            <div class="field">
+                <div class="label">基本信息:</div>
+                <div style="margin-top:8px; display:flex; flex-direction:column; gap:8px;">
+                    <div>
+                        <div class="label" style="margin-bottom:4px;">名称 (唯一):</div>
+                        <input placeholder="例如: okeyproxy" v-model.trim="providerForm.name" :disabled="providerForm.mode==='edit'">
+                    </div>
+                    <div>
+                        <div class="label" style="margin-bottom:4px;">地址 (proxy_addr):</div>
+                        <input placeholder="例如: proxy.example.com" v-model.trim="providerForm.proxy_addr">
+                    </div>
+                    <div>
+                        <div class="label" style="margin-bottom:4px;">端口:</div>
+                        <input placeholder="例如: 31212" v-model="providerForm.proxy_port">
+                    </div>
+                    <div>
+                        <div class="label" style="margin-bottom:4px;">
+                            用户名 (username)：
+                            <span style="font-size:11px; color:#6b7280; display:block; margin-top:2px;">
+                                支持魔法变量：${country}、${session}
+                            </span>
+                        </div>
+                        <input placeholder="例如: customer-xxx-country-${country}-session-${session}-time-60" v-model.trim="providerForm.username">
+                    </div>
+                    <div>
+                        <div class="label" style="margin-bottom:4px;">密码 (password):</div>
+                        <input placeholder="代理密码" v-model.trim="providerForm.password">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <button class="submit" @click="saveProvider">{{providerFormSaving ? '保存中...' : '保存'}}</button>
+            <button @click="providerForm = null">取消</button>
+        </div>
+    </div>
+</div>
+
+<script>
+axios.interceptors.response.use((_response) => {
+    return _response.data
+}, (_error) => {
+    return Promise.reject(_error.response)
+})
+
+// 仅对 /api 请求自动带上 ?auth=...（避免 /sumgr?action=... 出现重复 auth 变成数组）
+axios.interceptors.request.use((_config) => {
+    try{
+        const _url = String(_config.url || '')
+        const _isApi = _url.includes('/api/')
+        if( !_isApi ){
+            return _config
+        }
+        const _auth = new URLSearchParams(window.location.search).get('auth') || ''
+        if( _auth ){
+            _config.params = _config.params || {}
+            if( _config.params.auth == null ){
+                _config.params.auth = _auth
+            }
+        }
+    }catch(_e){}
+    return _config
+})
+
+;(async () => {
+
+    new Vue({
+        el: '#app',
+        data (){
+            return {
+
+                instances: [],
+                sk5proxys: [],
+
+                selectedPorts: [],
+
+                proxyProviders: [],
+                providersLoaded: false,
+                providerForm: null,
+                providerFormSaving: false,
+
+                sniModalVisible: false,
+                sniForm: { domain: '', cloudflare_key: '' },
+                sniFormSaving: false,
+                applyCertLoading: false,
+
+                proxyManagerVisible: false,
+                proxyManagerSaving: false,
+
+                qrcodeShow: false,
+
+                portStarts: '',
+                createInstForm: null,
+                createInstFormSubmiting: false,
+
+                logsModalVisible: false,
+                logsLoading: false,
+                logsAuto: true,
+                logsAfterId: 0,
+                logsLatestId: 0,
+                logs: [],
+                logsTimer: null,
+            }
+        },
+        methods: {
+            async copy (){
+
+                const _content = this.instances.map($ => `IP=${window.location.hostname} 端口=${$.local_port} 密码=${$.password[0]} SNI=${$.ssl.sni}`).join('\n')
+
+                if( window.location.protocol === 'https:' ){
+                    navigator.clipboard.writeText(_content)
+                }else{
+                    window.prompt('当前协议不支持复制，请手动复制：', _content)
+                }
+
+                console.log( _content )
+            },
+            async qrcode (_inst){
+
+                if( this.qrcodeShow ){
+                    this.qrcodeShow = false
+                    await this.$nextTick()
+                    return this.qrcode(_inst)
+                }
+
+                this.qrcodeShow = true
+                await this.$nextTick()
+                new QRCode(this.$refs['qrcode-modal'], {
+                    text: `trojan://${_inst.password[0]}@${window.location.hostname}:${_inst.local_port}?peer=${_inst.ssl.sni}&alpn=http/1.1`,
+                    width: 258,
+                    height: 258,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                })
+            },
+            async delinst (_inst){
+        
+                if( !window.confirm(`确定要删除[${_inst.local_port}]端口吗?`) ){
+                    return
+                }
+
+                try{
+
+                    const { code, msg } = await axios.post(`${window.location.origin}/api/instances/delete`, { port: _inst.local_port })
+                    if( code !== 0 ){
+                        throw new Error(msg || `未知错误: ${code}`)
+                    }
+
+                    window.alert(msg)
+                    this.loadInstances()
+
+                }catch(_error){
+                    window.alert(_error.message)
+                }
+            },
+            async delinsts (){
+        
+                if( this.selectedPorts.length === 0 ){
+                    return window.alert('请先勾选要删除的端口')
+                }
+
+                if( !window.confirm(`确定要删除选中的 ${this.selectedPorts.length} 个端口吗?`) ){
+                    return
+                }
+
+                for (const _port of this.selectedPorts) {
+                    try{
+                        await axios.post(`${window.location.origin}/api/instances/delete`, { port: _port })
+                    }catch(_error){
+                        console.error(_error)
+                    }
+                }
+
+                this.selectedPorts = []
+                this.loadInstances()
+            },
+            toggleSelectAll (_event){
+                const _checked = _event.target.checked
+                if( _checked ){
+                    this.selectedPorts = this.instances.map($ => $.local_port)
+                }else{
+                    this.selectedPorts = []
+                }
+            },
+            async changeip (_inst){
+                window.open(`http://${window.location.host}/api/changeip?platform=${this.sk5proxys[0]}&localport=${_inst.local_port}&country=JP`)
+            },
+            async addinst (){
+
+                // 必须有证书
+                const _ssl = await axios.get(`${window.location.origin}/api/ssl_status`).catch(() => null)
+                if( !_ssl || _ssl.code !== 0 || !_ssl.ready ){
+                    return window.alert('尚未申请/配置证书，请先在「SNI 配置」里申请证书')
+                }
+
+                // 必须有 SK5 提供商
+                if( !this.providersLoaded ){
+                    await this.loadProxyProviders()
+                }
+                if( !this.sk5proxys || this.sk5proxys.length === 0 ){
+                    return window.alert('尚未添加任何 SK5 提供商，请先在「SK5 提供商」中添加')
+                }
+
+                const _sni = await this.fetchSniConfig()
+                if( !_sni ){
+                    return window.alert('尚未配置 SNI，请先点击「SNI 配置」设置主域名')
+                }
+
+                const _portStarts = this.portStarts || (this.instances.length > 0 ? this.instances[ this.instances.length - 1 ].local_port : '')
+
+                this.createInstForm = {
+                    port: _portStarts ? _portStarts + 1 : '',
+                    sni: _sni || window.localStorage.getItem('last_sni_domain') || '',
+                    passwd: window.localStorage.getItem('last_auth_passwd') || '',
+                    proxy_name: window.localStorage.getItem('last_proxy_name'),
+                }
+            },
+            async createInst (){
+
+                if( this.createInstFormSubmiting ){
+                    return
+                }
+
+                const _form = this.createInstForm
+                if( !_form.port || !_form.sni || !_form.passwd || !_form.proxy_name ){
+                    return window.alert('参数错误 !')
+                }
+          
+                window.localStorage.setItem('last_sni_domain', _form.sni)
+                window.localStorage.setItem('last_auth_passwd', _form.passwd)
+                window.localStorage.setItem('last_proxy_name', _form.proxy_name)
+
+                const _createPorts = !isNaN(_form.port) ? [ parseInt(_form.port), parseInt(_form.port) ] : _form.port.split('-').filter($ => !isNaN($)).map($ => parseInt($))
+
+                this.createInstFormSubmiting = true
+                
+                for (let _port = _createPorts[0]; _port <= _createPorts[1]; _port++) {
+                    
+                    try{
+
+                        const { code, msg } = await axios.post(`${window.location.origin}/api/instances/create`, {
+                            ..._form,
+                            port: _port,
+                            sni: _form.sni
+                        })
+                        if( code !== 0 ){
+                            throw new Error(msg || `未知错误: ${code}`)
+                        }
+
+                        this.portStarts = _port
+
+                    }catch(_error){
+                        console.error(_error)
+                    }
+                }
+
+                this.loadInstances()
+                this.createInstForm = null
+                this.createInstFormSubmiting = false
+            },
+            async loadInstances (){
+
+                const { instances: _instances } = await axios.post(`${window.location.origin}/api/instances/list`)
+
+                if( this.portStarts === '' && _instances.length > 0 ){
+                    this.portStarts = _instances[ _instances.length - 1 ].local_port
+                }
+
+                this.instances = _instances
+            },
+            async loadProxyProviders (){
+                this.providersLoaded = false
+                try{
+                    const _url = `${window.location.origin}/api/proxy_providers`
+                    const { providers: _providers } = await axios.get(_url)
+                    this.proxyProviders = Object.keys(_providers || {}).map(_name => ({ name: _name, ..._providers[_name] }))
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                    this.sk5proxys = this.proxyProviders.map($ => $.name)
+                }catch(_error){
+                    console.error(_error)
+                    this.proxyProviders = []
+                }finally{
+                    this.providersLoaded = true
+                }
+            },
+            async fetchSniConfig (){
+                try{
+                    const _url = `${window.location.origin}/api/sni_config`
+                    const _res = await axios.get(_url)
+                    return (_res && typeof _res === 'object' && _res.domain != null) ? _res.domain : null
+                }catch(_error){
+                    console.error(_error)
+                    return null
+                }
+            },
+            openSniModal (){
+                this.sniModalVisible = true
+                axios.get(`${window.location.origin}/api/sni_config`).then((res) => {
+                    this.sniForm.domain = (res.domain != null ? res.domain : '').trim()
+                    this.sniForm.cloudflare_key = (res.cloudflare_key != null ? res.cloudflare_key : '').trim()
+                }).catch(() => {
+                    this.sniForm.domain = ''
+                    this.sniForm.cloudflare_key = ''
+                })
+            },
+            openProxyManager (){
+                this.proxyManagerVisible = true
+                if( !this.providersLoaded ){
+                    this.loadProxyProviders()
+                }
+            },
+            addProvider (){
+                this.providerForm = { mode: 'add', name: '', proxy_addr: '', proxy_port: '', username: '', password: '' }
+            },
+            editProvider (_p){
+                this.providerForm = { mode: 'edit', name: _p.name, proxy_addr: _p.proxy_addr, proxy_port: _p.proxy_port, username: _p.username, password: _p.password }
+            },
+            async deleteProvider (_p){
+                if( !window.confirm(`确定要删除代理提供商 [${_p.name}] 吗?`) ){
+                    return
+                }
+                try{
+                    const url = `${window.location.origin}/api/proxy_providers/${encodeURIComponent(_p.name)}`
+                    const { code, msg } = await axios.delete(url)
+                    if( code !== 0 ){
+                        throw new Error(msg || `未知错误: ${code}`)
+                    }
+                    await this.loadProxyProviders()
+                }catch(_error){
+                    window.alert(_error.message || '删除失败')
+                }
+            },
+            async saveProvider (){
+                if( this.providerFormSaving || !this.providerForm ){
+                    return
+                }
+                const _f = this.providerForm
+                if( !_f.name || !_f.proxy_addr || !_f.proxy_port || !_f.username || !_f.password ){
+                    return window.alert('参数错误 !')
+                }
+                this.providerFormSaving = true
+                try{
+                    const _payload = {
+                        name: _f.name.trim(),
+                        proxy_addr: _f.proxy_addr.trim(),
+                        proxy_port: parseInt(_f.proxy_port),
+                        username: _f.username.trim(),
+                        password: _f.password.trim(),
+                    }
+                    if( isNaN(_payload.proxy_port) ){
+                        throw new Error('proxy_port 必须是数字')
+                    }
+
+                    if( _f.mode === 'add' ){
+                        const _url = `${window.location.origin}/api/proxy_providers`
+                        const { code, msg } = await axios.post(_url, _payload)
+                        if( code !== 0 ){
+                            throw new Error(msg || `未知错误: ${code}`)
+                        }
+                    }else{
+                        const _url = `${window.location.origin}/api/proxy_providers/${encodeURIComponent(_payload.name)}`
+                        const { code, msg } = await axios.put(_url, _payload)
+                        if( code !== 0 ){
+                            throw new Error(msg || `未知错误: ${code}`)
+                        }
+                    }
+
+                    this.providerForm = null
+                    await this.loadProxyProviders()
+                }catch(_error){
+                    window.alert(_error.message || '保存失败')
+                }finally{
+                    this.providerFormSaving = false
+                }
+            },
+            async saveSni (){
+                if( this.sniFormSaving ){
+                    return
+                }
+                const _domain = (this.sniForm.domain || '').trim()
+                const _cloudflareKey = (this.sniForm.cloudflare_key || '').trim()
+
+                // 前端先校验：仅允许主域名（xxx.yyy），不含子域名，不带协议/路径/端口
+                const _normalizeMainDomain = (_input) => {
+                    if( !_input ){ return null }
+                    let _s = String(_input).trim().toLowerCase()
+                    _s = _s.replace(/^https?:\/\//i, '').replace(/\/.*$/, '')
+                    const _slash = _s.indexOf('/')
+                    if( _slash >= 0 ){ _s = _s.slice(0, _slash) }
+                    _s = _s.replace(/:\d+$/, '')
+                    const _parts = _s.split('.').filter(Boolean)
+                    if( _parts.length !== 2 ){ return null }
+                    const _ok = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/i
+                    if( !_ok.test(_parts[0]) || !_ok.test(_parts[1]) ){ return null }
+                    return `${_parts[0]}.${_parts[1]}`
+                }
+                const _normalized = _normalizeMainDomain(_domain)
+                if( _domain && !_normalized ){
+                    return window.alert('SNI 域名不合法：仅允许主域名（xxx.yyy），不能含子域名（如 www），不要带协议/路径/端口')
+                }
+                // 用规范化后的主域名写入（去掉用户误输入的协议/路径/端口）
+                this.sniForm.domain = _normalized || ''
+
+                this.sniFormSaving = true
+                try{
+                    const _url = `${window.location.origin}/api/sni_config`
+                    const _res = await axios.post(_url, { domain: this.sniForm.domain, cloudflare_key: _cloudflareKey }).catch(_err => ({
+                        code: _err.response?.data?.code ?? 500,
+                        error: _err.response?.data?.error || _err.message
+                    }))
+                    if( _res.code !== 0 ){
+                        throw new Error(_res.error || _res.msg || '保存失败')
+                    }
+                    this.sniModalVisible = false
+                }catch(_error){
+                    window.alert(_error.message || '保存失败')
+                }finally{
+                    this.sniFormSaving = false
+                }
+            },
+            async applyCert (){
+                if( this.applyCertLoading ){
+                    return
+                }
+                this.applyCertLoading = true
+                try{
+                    const _url = `${window.location.origin}/api/apply_cert`
+                    const _res = await axios.post(_url).catch(_err => (_err && _err.data) ? _err.data : {
+                        code: 500,
+                        error: _err.message || '请求失败',
+                    })
+                    if( _res.code !== 0 ){
+                        throw new Error(_res.error || _res.msg || '申请失败')
+                    }
+                    window.alert('证书申请并替换成功')
+                }catch(_error){
+                    window.alert(_error.message || '申请失败')
+                }finally{
+                    this.applyCertLoading = false
+                }
+            },
+
+            openLogsModal (){
+                this.logsModalVisible = true
+                this.fetchLogs(true)
+                this.startLogsAuto()
+            },
+            closeLogsModal (){
+                this.logsModalVisible = false
+                this.stopLogsAuto()
+            },
+            toggleLogsAuto (){
+                this.logsAuto = !this.logsAuto
+                if( this.logsAuto ){
+                    this.startLogsAuto()
+                }else{
+                    this.stopLogsAuto()
+                }
+            },
+            startLogsAuto (){
+                if( this.logsTimer ){
+                    return
+                }
+                this.logsTimer = setInterval(() => {
+                    if( this.logsModalVisible && this.logsAuto ){
+                        this.fetchLogs(false)
+                    }
+                }, 1500)
+            },
+            stopLogsAuto (){
+                if( this.logsTimer ){
+                    clearInterval(this.logsTimer)
+                    this.logsTimer = null
+                }
+            },
+            async fetchLogs (_reset){
+                if( this.logsLoading ){
+                    return
+                }
+                this.logsLoading = true
+                try{
+                    if( _reset ){
+                        this.logsAfterId = 0
+                        this.logs = []
+                    }
+                    const _url = `${window.location.origin}/api/logs`
+                    const _res = await axios.get(_url, { params: { after_id: this.logsAfterId, limit: 1000 } })
+                    const _items = Array.isArray(_res.logs) ? _res.logs : []
+                    if( _items.length ){
+                        this.logsAfterId = _items[_items.length - 1].id
+                        this.logs = this.logs.concat(_items).slice(-10000)
+                    }
+                    this.logsLatestId = _res.latest_id || this.logsAfterId
+                }catch(_e){
+                    console.error(_e)
+                }finally{
+                    this.logsLoading = false
+                }
+            }
+        },
+        computed: {
+            logsText (){
+                return this.logs.map(_l => {
+                    const _t = new Date(_l.ts).toLocaleString()
+                    return `[${_t}] [${_l.level}] ${_l.msg}`
+                }).join('\n')
+            }
+        },
+        mounted (){
+
+            this.loadInstances()
+            this.loadProxyProviders()
+        }
+    })
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "socket5_proxy_manager",
+  "version": "1.0.0",
+  "description": "Socket5 Proxy Manager",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js --password ${PANEL_PASSWORD:-change_me}",
+    "build": "node scripts/build-dist.cjs",
+    "build:zip": "npm run build && node scripts/zip-dist.cjs",
+    "start:dist": "node dist/unpack/server.js --password d3a6b",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Try",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.1",
+    "vite": "^7.1.3"
+  }
+}
