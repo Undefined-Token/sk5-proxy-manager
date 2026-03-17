@@ -1,6 +1,6 @@
 {
   "name": "socket5_proxy_manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Socket5 Proxy Manager",
   "main": "server.js",
   "scripts": {
