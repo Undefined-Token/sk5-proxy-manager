@@ -50,4 +50,4 @@ PANEL_PASSWORD=change_me npm run dev
 npm run build
 ```
 
-[插眼] `https://iosclick.com` IOS免越狱自动化中控
+[插眼] [https://iosclick.com](https://iosclick.com) IOS免越狱自动化中控
