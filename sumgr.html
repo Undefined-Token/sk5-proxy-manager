@@ -33,6 +33,7 @@
             color: #e5e7eb;
             font-size: 13px;
             transition: all .15s ease-out;
+            white-space: nowrap;
         }
         button:hover{
             background: #1d4ed8;
@@ -483,14 +484,24 @@
         <div class="body">
             <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;">
                 <div style="font-size:12px; color:#9ca3af;">
-                    latest_id: {{logsLatestId}}，已加载 {{logs.length}} 条
+                    latest_id: {{logsLatestId}}，已加载 {{logs.length}} 条<span v-if="logsSearchText" style="margin-left:8px;">，命中 {{logsFilteredCount}} 条</span>
                 </div>
                 <div style="display:flex; gap:8px;">
+                    <button @click="toggleLogsSearch">{{logsSearchVisible ? '收起搜索' : '搜索'}}</button>
                     <button @click="fetchLogs(true)" :disabled="logsLoading">{{logsLoading ? '加载中...' : '刷新'}}</button>
                     <button @click="toggleLogsAuto">{{logsAuto ? '停止自动刷新' : '自动刷新'}}</button>
                 </div>
             </div>
-            <div style="max-height:55vh; overflow:auto; border:1px solid rgba(55,65,81,0.6); border-radius:8px; background:rgba(2,6,23,0.6); padding:10px;">
+            <div v-if="logsSearchVisible" style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
+                <input
+                    placeholder="搜索关键字（level/msg/时间文本）"
+                    v-model.trim="logsSearchText"
+                    @keyup.enter="onLogsSearchEnter"
+                    style="flex:1 1 auto; width:100%;"
+                >
+                <button @click="clearLogsSearch" :disabled="!logsSearchText">清除</button>
+            </div>
+            <div ref="logsBox" style="max-height:55vh; overflow:auto; border:1px solid rgba(55,65,81,0.6); border-radius:8px; background:rgba(2,6,23,0.6); padding:10px;">
                 <pre style="white-space:pre-wrap; word-break:break-word; font-size:12px; line-height:1.45; margin:0;">{{logsText}}</pre>
             </div>
         </div>
@@ -604,6 +615,9 @@ axios.interceptors.request.use((_config) => {
                 logsLatestId: 0,
                 logs: [],
                 logsTimer: null,
+
+                logsSearchVisible: false,
+                logsSearchText: '',
             }
         },
         methods: {
@@ -962,6 +976,29 @@ axios.interceptors.request.use((_config) => {
                     this.stopLogsAuto()
                 }
             },
+            toggleLogsSearch (){
+                this.logsSearchVisible = !this.logsSearchVisible
+                if( !this.logsSearchVisible ){
+                    this.logsSearchText = ''
+                }else{
+                    this.$nextTick(() => {
+                        try{
+                            const el = this.$el && this.$el.querySelector && this.$el.querySelector('input[placeholder^="搜索关键字"]')
+                            if( el && el.focus ){ el.focus() }
+                        }catch(_e){}
+                    })
+                }
+            },
+            clearLogsSearch (){
+                this.logsSearchText = ''
+                this.$nextTick(() => this._scrollLogsToBottom())
+            },
+            onLogsSearchEnter (){
+                // 回车时若输入为空则直接收起
+                if( !this.logsSearchText ){
+                    this.logsSearchVisible = false
+                }
+            },
             startLogsAuto (){
                 if( this.logsTimer ){
                     return
@@ -978,10 +1015,22 @@ axios.interceptors.request.use((_config) => {
                     this.logsTimer = null
                 }
             },
+            _isLogsNearBottom (){
+                const el = this.$refs.logsBox
+                if( !el ){ return true }
+                const threshold = 8
+                return (el.scrollHeight - el.scrollTop - el.clientHeight) <= threshold
+            },
+            _scrollLogsToBottom (){
+                const el = this.$refs.logsBox
+                if( !el ){ return }
+                el.scrollTop = el.scrollHeight
+            },
             async fetchLogs (_reset){
                 if( this.logsLoading ){
                     return
                 }
+                const _shouldStickBottom = _reset ? true : this._isLogsNearBottom()
                 this.logsLoading = true
                 try{
                     if( _reset ){
@@ -1000,12 +1049,36 @@ axios.interceptors.request.use((_config) => {
                     console.error(_e)
                 }finally{
                     this.logsLoading = false
+                    // 搜索过滤时，通常是在翻看，不强制跟随滚动
+                    if( _shouldStickBottom && !this.logsSearchText ){
+                        this.$nextTick(() => this._scrollLogsToBottom())
+                    }
                 }
             }
         },
         computed: {
+            logsFiltered (){
+                const q = (this.logsSearchText || '').trim().toLowerCase()
+                if( !q ){
+                    return this.logs
+                }
+                return (this.logs || []).filter(_l => {
+                    try{
+                        const _t = new Date(_l.ts).toLocaleString()
+                        const _msg = String(_l.msg || '')
+                        const _lv = String(_l.level || '')
+                        const hay = `${_t} ${_lv} ${_msg}`.toLowerCase()
+                        return hay.includes(q)
+                    }catch(_e){
+                        return false
+                    }
+                })
+            },
+            logsFilteredCount (){
+                return (this.logsFiltered && this.logsFiltered.length) ? this.logsFiltered.length : 0
+            },
             logsText (){
-                return this.logs.map(_l => {
+                return this.logsFiltered.map(_l => {
                     const _t = new Date(_l.ts).toLocaleString()
                     return `[${_t}] [${_l.level}] ${_l.msg}`
                 }).join('\n')

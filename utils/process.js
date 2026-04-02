@@ -5,6 +5,35 @@ const logger = require('./logger')
 // 简单的进程管理器，用 name 标识每个 trojan 实例
 const processes = new Map()
 
+function _wireChildOutputToLogger (name, child){
+    // stdio=pipe 才会有 stdout/stderr
+    const MAX_LINE_LEN = 4000
+
+    const makeLineLogger = (level) => {
+        let _buf = ''
+        return (chunk) => {
+            try{
+                _buf += chunk.toString('utf8')
+                const parts = _buf.split(/\r?\n/)
+                _buf = parts.pop() || ''
+                for( const line of parts ){
+                    const _line = (line || '').trimEnd()
+                    if( !_line ){ continue }
+                    const clipped = _line.length > MAX_LINE_LEN ? (_line.slice(0, MAX_LINE_LEN) + '…(clipped)') : _line
+                    logger[level](`[process] ${name}: ${clipped}`)
+                }
+            }catch(_e){}
+        }
+    }
+
+    if( child && child.stdout ){
+        child.stdout.on('data', makeLineLogger('info'))
+    }
+    if( child && child.stderr ){
+        child.stderr.on('data', makeLineLogger('warn'))
+    }
+}
+
 function startProcess (name, command, args = [], options = {}) {
     // 已存在则先尝试停止旧进程
     if (processes.has(name)) {
@@ -13,7 +42,8 @@ function startProcess (name, command, args = [], options = {}) {
 
     const spawnOptions = {
         cwd: options.cwd || process.cwd(),
-        stdio: 'ignore',
+        // 让 trojan-go 的输出可被采集到日志中（stdout/stderr）
+        stdio: ['ignore', 'pipe', 'pipe'],
         env: process.env,
     }
 
@@ -26,6 +56,8 @@ function startProcess (name, command, args = [], options = {}) {
     const child = spawn(command, args, spawnOptions)
 
     processes.set(name, child)
+
+    _wireChildOutputToLogger(name, child)
 
     child.on('exit', (code, signal) => {
         // 进程退出时自动从管理列表中移除
